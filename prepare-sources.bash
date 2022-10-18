@@ -20,6 +20,6 @@ printf "Build version: %s\n" "${artemis_version}"
 readonly artemis_version
 
 # Prepare the sources for this version
-cd "${source_dir}/artemis-docker" || exit 1
+cd "${source_dir}/activemq_artemis/artemis-docker" || exit 1
 ./prepare-docker.sh --from-release --artemis-version "${artemis_version}"
 echo "$artemis_version"
