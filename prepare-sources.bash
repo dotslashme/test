@@ -9,7 +9,7 @@ source_dir="${script_path}/activemq_artemis"
 readonly source_dir
 
 # Clone Artemis source code repository
-git clone --bare https://github.com/apache/activemq-artemis.git "${source_dir}"
+git clone https://github.com/apache/activemq-artemis.git "${source_dir}"
 
 # Build either a provided version or latest tag from the repository
 cd "${source_dir}" || exit 1
