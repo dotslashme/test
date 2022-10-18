@@ -15,6 +15,8 @@ git clone https://github.com/apache/activemq-artemis.git "${source_dir}"
 cd "${source_dir}" || exit 1
 latest_version="$(git describe --tags --abbrev=0)"
 artemis_version="${1:-$latest_version}"
+printf "Latest version: %s\n" "${latest_version}"
+printf "Build version: %s\n" "${artemis_version}"
 readonly artemis_version
 
 # Prepare the sources for this version
