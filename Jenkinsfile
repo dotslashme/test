@@ -1,5 +1,3 @@
-def dockerRegistry = 'http://localhost:8080'
-def nexusRepoCredentials = 'nexus-repo-credentials'
 pipeline {
     agent any
     environment {
@@ -38,10 +36,7 @@ pipeline {
             steps {
                 script {
                     dir("${env.artemisSourceDir}/artemis-docker/_TMP_/artemis/${activemq_version}") {
-//                        docker.withRegistry(dockerRegistry, nexusRepoCredentials) {
                         artemisImage = docker.build("artemis-centos:${activemq_version}", "-f ./docker/Dockerfile-centos7-11 -t artemis-centos:${activemq_version} .")
-//                            artemisImage.push()
-//                        }
                     }
                 }
             }
