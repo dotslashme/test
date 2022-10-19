@@ -17,6 +17,5 @@ latest_version="$(git describe --tags --abbrev=0)"
 artemis_version="${1:-$latest_version}"
 readonly artemis_version
 
-# Prepare the sources for this version
-cd "${source_dir}/artemis-docker" || exit 1
+# Echo version used back to caller
 echo "$artemis_version"
