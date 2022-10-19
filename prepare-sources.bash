@@ -5,7 +5,7 @@ declare source_dir
 declare latest_version
 script_path=$(dirname "$0")
 script_path=$(cd "${script_path}" && pwd)
-source_dir="${script_path}/activemq_artemis"
+source_dir="${script_path}/../activemq_artemis"
 readonly source_dir
 
 # Clone Artemis source code repository
