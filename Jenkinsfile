@@ -23,7 +23,7 @@ pipeline {
             steps {
                 script {
                     dir("${env.artemisSourceDir}/artemis-docker/_TMP_/artemis/${activemq_version}") {
-                        artemisImage = docker.build("artemis-centos:${activemq_version}", "-f ./docker/Dockerfile-centos7-11 -t artemis-centos:${activemq_version} .")
+                        artemisImage = docker.build("artemis-centos7-11:${activemq_version}", "-f ./docker/Dockerfile-centos7-11 -t artemis-centos7-11:${activemq_version} .")
                     }
                 }
             }
