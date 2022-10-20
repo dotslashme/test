@@ -28,12 +28,5 @@ pipeline {
                 }
             }
         }
-        stage('cleanUp') {
-            steps {
-                script {
-                    sh "rm -rf ${env.WORKSPACE}/*"
-                }
-            }
-        }
     }
 }
