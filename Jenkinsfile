@@ -22,7 +22,10 @@ pipeline {
             steps {
                 script {
                     dir("${env.artemisSourceDir}/artemis-docker/_TMP_/artemis/${activemq_version}") {
-                        artemisImage = docker.build("artemis-centos7-11:${activemq_version}", "-f ./docker/Dockerfile-centos7-11 -t artemis-centos7-11:${activemq_version} .")
+                        docker.withRegistry('http://192.168.1.169:8081/repository/docker', 'nexus-credentials') {
+                            def artemisImage = docker.build("artemis-centos7-11:${activemq_version}", "-f ./docker/Dockerfile-centos7-11 -t artemis-centos7-11:${activemq_version} .")
+                            artemisImage.push()
+                        }
                     }
                 }
             }
