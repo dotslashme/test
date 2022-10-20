@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        scriptSourceDir = "${env.WORKSPACE}/test"
+        scriptSourceDir = "${env.WORKSPACE}"
         artemisSourceDir = "${env.WORKSPACE}/activemq_artemis"
     }
     stages {
