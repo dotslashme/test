@@ -1,15 +1,14 @@
 pipeline {
     agent any
     environment {
-        scriptSourceDir = "${env.WORKSPACE}"
         artemisSourceDir = "${env.WORKSPACE}/activemq_artemis"
     }
     stages {
         stage('prepareSources') {
             steps {
                 script {
-                    sh "chmod u+x ${env.scriptSourceDir}/prepare-sources.bash"
-                    activemq_version = sh(returnStdout: true, script: "${env.scriptSourceDir}/prepare-sources.bash ${artemisSourceDir} ${version}").trim()
+                    sh "chmod u+x ${env.WORKSPACE}/prepare-sources.bash"
+                    activemq_version = sh(returnStdout: true, script: "${env.WORKSPACE}/prepare-sources.bash ${artemisSourceDir} ${version}").trim()
                 }
                 script {
                     echo "Switching to: ${env.artemisSourceDir}/artemis-docker"
