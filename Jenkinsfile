@@ -12,8 +12,8 @@ pipeline {
                     artemis_version = sh(returnStdout: true, script: "${env.WORKSPACE}/prepare-sources.bash ${env.artemisSourceDir} ${artemis_version}").trim()
                 }
                 script {
-                    echo ${artemis_version}
-                    if ("${artemis_version}".trim().equals("latest")) {
+                    echo "Artemis version: ${artemis_version}"
+                    if (${artemis_version}.trim().equals("latest")) {
                         echo "We are now building everything from scratch"
                         dir("${env.artemisSourceDir/artemis-distribution}") {
                             echo "Starting maven packaging"
