@@ -3,7 +3,6 @@ pipeline {
     parameters {
         // artemis_version is set when you trigger a build
         artemisSourceDir = "${env.WORKSPACE}/activemq-artemis"
-        def docker_version
     }
     stages {
         stage('prepareSources') {
