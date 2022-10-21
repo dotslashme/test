@@ -13,7 +13,7 @@ pipeline {
                     artemis_version = sh(returnStdout: true, script: "${env.WORKSPACE}/prepare-sources.bash ${artemisSourceDir} ${artemis_version}").trim()
                 }
                 script {
-                    if (${artemis_version}.trim().equals("latest") {
+                    if (${artemis_version}.trim().equals("latest")) {
                         dir("${artemisSourceDir/artemis-distribution}") {
                             sh "mvn clean package"
                             docker_version = "latest"
