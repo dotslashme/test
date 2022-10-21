@@ -29,8 +29,8 @@ pipeline {
                         }
                     } else {
                         dir("${env.artemisSourceDir}/artemis-docker") {
-                            echo "Prepare docker built from release ${activemq_version}"
-                            sh "./prepare-docker.sh --from-release --artemis-version ${activemq_version}"
+                            echo "Prepare docker built from release ${artemis_version}"
+                            sh "./prepare-docker.sh --from-release --artemis-version ${artemis_version}"
                             env.docker_version = "release"
                         }
                     }
@@ -40,7 +40,7 @@ pipeline {
         stage('buildDockerImage') {
             steps {
                 script {
-                    dir("${env.artemisSourceDir}/artemis-docker/_TMP_/artemis/${activemq_version}") {
+                    dir("${env.artemisSourceDir}/artemis-docker/_TMP_/artemis/${artemis_version}") {
                         def artemisImage = docker.build("artemis-centos7-11:${env.docker_version}", "-f ./docker/Dockerfile-centos7-11 -t artemis-centos7-11:${env.docker_version} .")
 //                         artemisImage.push()
                     }
