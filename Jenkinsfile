@@ -14,7 +14,7 @@ pipeline {
                     echo "Artemis version: ${artemis_version}"
                     if (artemis_version.trim().equals("latest")) {
                         echo "We are now building everything from scratch"
-                        dir("${env.artemisSourceDir/artemis-distribution}") {
+                        dir("${env.artemisSourceDir}/artemis-distribution") {
                             echo "Starting maven packaging"
                             sh "mvn clean package"
                             echo "Setting docker image version"
@@ -22,7 +22,7 @@ pipeline {
                             echo "Getting build version"
                             artemis_version = sh(returnStdout: true, script: "mvn help:evaluate -Dexpression=project.version -q -DforceStdout")
                         }
-                        dir("${env.artemisSourceDir/artemis-docker}") {
+                        dir("${env.artemisSourceDir}/artemis-docker") {
                             echo "Preparing docker built from latest commit"
                             sh "./prepare-docker.sh --from-local-dist --local-dist-path ${env.artemisSourceDir}/artemis-distribution/target/apache-artemis-${artemis_version}-bin/apache-artemis-${artemis_version}"
                         }
