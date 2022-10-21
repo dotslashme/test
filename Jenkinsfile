@@ -2,9 +2,6 @@ pipeline {
     agent any
     environment {
         artemisSourceDir = "${env.WORKSPACE}/activemq-artemis"
-        docker_version = ""
-    }
-    stages {
         stage('prepareSources') {
             steps {
                 script {
@@ -19,7 +16,7 @@ pipeline {
                             echo "Starting maven packaging"
                             sh "mvn clean package"
                             echo "Setting docker image version"
-                            env.docker_version = "latest"
+                            docker_version = "latest"
                             echo "Getting build version"
                             artemis_version = sh(returnStdout: true, script: "mvn help:evaluate -Dexpression=project.version -q -DforceStdout")
                         }
@@ -31,7 +28,7 @@ pipeline {
                         dir("${env.artemisSourceDir}/artemis-docker") {
                             echo "Prepare docker built from release ${artemis_version}"
                             sh "./prepare-docker.sh --from-release --artemis-version ${artemis_version}"
-                            env.docker_version = "release"
+                            docker_version = "release"
                         }
                     }
                 }
@@ -41,7 +38,7 @@ pipeline {
             steps {
                 script {
                     dir("${env.artemisSourceDir}/artemis-docker/_TMP_/artemis/${artemis_version}") {
-                        def artemisImage = docker.build("artemis-centos7-11:${env.docker_version}", "-f ./docker/Dockerfile-centos7-11 -t artemis-centos7-11:${env.docker_version} .")
+                        def artemisImage = docker.build("artemis-centos7-11:${docker_version}", "-f ./docker/Dockerfile-centos7-11 -t artemis-centos7-11:${docker_version} .")
 //                         artemisImage.push()
                     }
                 }
