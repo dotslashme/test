@@ -13,7 +13,7 @@ pipeline {
                 }
                 script {
                     echo "Artemis version: ${artemis_version}"
-                    if (${artemis_version}.trim().equals("latest")) {
+                    if (artemis_version.trim().equals("latest")) {
                         echo "We are now building everything from scratch"
                         dir("${env.artemisSourceDir/artemis-distribution}") {
                             echo "Starting maven packaging"
