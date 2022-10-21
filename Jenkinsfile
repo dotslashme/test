@@ -39,9 +39,15 @@ pipeline {
         stage('buildDockerImage') {
             steps {
                 script {
-                    dir("${env.artemisSourceDir}/artemis-docker/_TMP_/artemis/${artemis_version}") {
-                        def artemisImage = docker.build("artemis-centos7-11:${docker_version}", "-f ./docker/Dockerfile-centos7-11 -t artemis-centos7-11:${docker_version} .")
-//                         artemisImage.push()
+                    if (docker_version.trim().equals("release"))
+                        dir("${env.artemisSourceDir}/artemis-docker/_TMP_/artemis/${artemis_version}") {
+                            def artemisImage = docker.build("artemis-centos7-11:${docker_version}", "-f ./docker/Dockerfile-centos7-11 -t artemis-centos7-11:${docker_version} .")
+//                          artemisImage.push()
+                        }
+                    } else {
+                        dir("${env.artemisSourceDir}/artemis-distribution/target/apache-artemis-${artemis_version}-bin/apache-artemis-${artemis_version}")
+                            def artemisImage = docker.build("artemis-centos7-11:${docker_version}", "-f ./docker/Dockerfile-centos7-11 -t artemis-centos7-11:${docker_version} .")
+                            //artemisImage.push()
                     }
                 }
             }
