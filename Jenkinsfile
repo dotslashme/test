@@ -2,6 +2,8 @@ pipeline {
     agent any
     environment {
         artemisSourceDir = "${env.WORKSPACE}/activemq-artemis"
+    }
+    stages {
         stage('prepareSources') {
             steps {
                 script {
