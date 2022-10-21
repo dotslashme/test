@@ -1,19 +1,32 @@
 pipeline {
     agent any
-    environment {
-        artemisSourceDir = "${env.WORKSPACE}/activemq_artemis"
+    parameters {
+        // artemis_version is set when you trigger a build
+        artemisSourceDir = "${env.WORKSPACE}/activemq-artemis"
+        docker_version = ""
     }
     stages {
         stage('prepareSources') {
             steps {
                 script {
                     sh "chmod u+x ${env.WORKSPACE}/prepare-sources.bash"
-                    activemq_version = sh(returnStdout: true, script: "${env.WORKSPACE}/prepare-sources.bash ${artemisSourceDir} ${version}").trim()
+                    artemis_version = sh(returnStdout: true, script: "${env.WORKSPACE}/prepare-sources.bash ${artemisSourceDir} ${artemis_version}").trim()
                 }
                 script {
-                    echo "Switching to: ${env.artemisSourceDir}/artemis-docker"
-                    dir("${env.artemisSourceDir}/artemis-docker") {
-                        sh "./prepare-docker.sh --from-release --artemis-version ${activemq_version}"
+                    if (${artemis_version}.trim().equals("latest") {
+                        dir("${artemisSourceDir/artemis-distribution}") {
+                            sh "mvn clean package"
+                            docker_version = "latest"
+                            artemis_version = sh(returnStdout: true, script: "mvn help:evaluate -Dexpression=project.version -q -DforceStdout")
+                        }
+                        dir("${artemisSourceDir/artemis-docker}") {
+                            sh "./prepare-docker.sh --from-local-dist --local-dist-path ${artemisSourceDir}/artemis-distribution/target/apache-artemis-${artemis_version}-bin/apache-artemis-${artemis_version}"
+                        }
+                    } else {
+                        dir("${artemisSourceDir}/artemis-docker") {
+                            sh "./prepare-docker.sh --from-release --artemis-version ${activemq_version}"
+                            docker_version = "release"
+                        }
                     }
                 }
             }
@@ -21,9 +34,9 @@ pipeline {
         stage('buildDockerImage') {
             steps {
                 script {
-                    dir("${env.artemisSourceDir}/artemis-docker/_TMP_/artemis/${activemq_version}") {
-                        def artemisImage = docker.build("artemis-centos7-11:${activemq_version}", "-f ./docker/Dockerfile-centos7-11 -t artemis-centos7-11:${activemq_version} .")
-                        artemisImage.push()
+                    dir("${artemisSourceDir}/artemis-docker/_TMP_/artemis/${activemq_version}") {
+                        def artemisImage = docker.build("artemis-centos7-11:${docker_version}", "-f ./docker/Dockerfile-centos7-11 -t artemis-centos7-11:${docker_version} .")
+//                         artemisImage.push()
                     }
                 }
             }
