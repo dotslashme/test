@@ -17,5 +17,10 @@ latest_version="$(git describe --tags --abbrev=0)"
 artemis_version="${2:-$latest_version}"
 readonly artemis_version
 
+if [[ "${artemis_version}" != "latest" ]] && [[ "${artemis_version}" != "${latest_version}" ]]; then
+    # We have supplied a manual version, check it and set it
+    git tag | grep "${artemis_version}" || exit 1
+fi
+
 # Echo version used back to caller
 echo "$artemis_version"
