@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -x
 declare artemis_version
 declare source_dir
 declare latest_version
