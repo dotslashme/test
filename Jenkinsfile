@@ -2,7 +2,6 @@ pipeline {
     agent any
     environment {
         artemis_source_dir = "${env.WORKSPACE}/activemq-artemis"
-        docker_version = ""
     }
     stages {
         stage('prepareSources') {
