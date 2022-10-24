@@ -21,9 +21,9 @@ if [[ "${artemis_version}" != "latest" && "${artemis_version}" != "${latest_vers
   # We have supplied a manual version, check it and set it if it exists as a tag
   git tag | grep "${artemis_version}" &> /dev/null
   test $? -eq 0 || exit 1
-  printf "%s|%s" "${artemis_version}" "${artemis_version}" > versions.txt
+  printf "%s|%s" "${artemis_version}" "${artemis_version}" > "${PWD}/versions.txt"
 elif [[ "${artemis_version}" != "latest" && "${artemis_version}" == "${latest_version}" ]]; then
-  printf "%s|%s" "${artemis_version}" "release" > versions.txt
+  printf "%s|%s" "${artemis_version}" "release" > "${PWD}/versions.txt"
 else
-  printf "%s|%s" "${artemis_version}" "latest" > versions.txt
+  printf "%s|%s" "${artemis_version}" "latest" > "${PWD}/versions.txt"
 fi
