@@ -22,6 +22,8 @@ if [[ "${artemis_version}" != "latest" && "${artemis_version}" != "${latest_vers
   git tag | grep "${artemis_version}" &> /dev/null
   test $? -eq 0 || exit 1
   export docker_version="${artemis_version}"
+elif [[ "${artemis_version}" != "latest" && "${artemis_version}" == "${latest_version}" ]]; then
+  export docker_version="release"
 fi
 
 # Echo version used back to caller

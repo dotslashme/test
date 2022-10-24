@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         artemisSourceDir = "${env.WORKSPACE}/activemq-artemis"
+        docker_version = ""
     }
     stages {
         stage('prepareSources') {
@@ -27,7 +28,6 @@ pipeline {
                         dir("${env.artemisSourceDir}/artemis-docker") {
                             echo "Prepare docker built from release ${artemis_version}"
                             sh "./prepare-docker.sh --from-release --artemis-version ${artemis_version}"
-                            docker_version = "release"
                             echo "Docker version: ${docker_version}, Artemis version: ${artemis_version}"
                         }
                     }
