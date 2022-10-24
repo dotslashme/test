@@ -9,7 +9,7 @@ pipeline {
         stage('prepareSources') {
             steps {
                 script {
-                    (activemq_version,docker_version) = sh(returnStdout: true, script: "${env.WORKSPACE}/prepare-sources.bash ${env.artemis_source_dir} ${activemq_version}").trim().tokenize('|')
+                    (activemq_version,docker_version) = sh(returnStdout: true, script: "${env.WORKSPACE}/prepare-sources.bash ${env.artemis_source_dir} ${artemis_version}").trim().tokenize('|')
                     echo "Artemis version: ${activemq_version}"
                     echo "Docker version: ${docker_version}"
                 }
