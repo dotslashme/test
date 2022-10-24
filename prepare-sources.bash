@@ -24,6 +24,8 @@ if [[ "${artemis_version}" != "latest" && "${artemis_version}" != "${latest_vers
   export docker_version="${artemis_version}"
 elif [[ "${artemis_version}" != "latest" && "${artemis_version}" == "${latest_version}" ]]; then
   export docker_version="release"
+else
+  export docker_version="latest"
 fi
 
 # Echo version used back to caller
