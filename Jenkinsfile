@@ -1,3 +1,5 @@
+def artemis_version = ""
+def docker_version = ""
 pipeline {
     agent any
     environment {
@@ -7,7 +9,7 @@ pipeline {
         stage('prepareSources') {
             steps {
                 script {
-                    def (artemis_version,docker_version) = sh(returnStdout: true, script: "${env.WORKSPACE}/prepare-sources.bash ${env.artemis_source_dir} ${artemis_version}").trim().tokenize('|')
+                    (artemis_version,docker_version) = sh(returnStdout: true, script: "${env.WORKSPACE}/prepare-sources.bash ${env.artemis_source_dir} ${artemis_version}").trim().tokenize('|')
                     echo "Artemis version: ${artemis_version}"
                     echo "Docker version: ${docker_version}"
                 }
