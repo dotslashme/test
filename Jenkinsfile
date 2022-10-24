@@ -8,6 +8,8 @@ pipeline {
             steps {
                 script {
                     def (artemis_version,docker_version) = sh(returnStdout: true, script: "${env.WORKSPACE}/prepare-sources.bash ${env.artemis_source_dir} ${artemis_version}").trim().tokenize('|')
+                    echo "Artemis version: ${artemis_version}"
+                    echo "Docker version: ${docker_version}"
                 }
                 script {
                     if (artemis_version.trim().equals("latest")) {
