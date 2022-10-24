@@ -19,7 +19,7 @@ readonly artemis_version
 
 if [[ "${artemis_version}" != "latest" && "${artemis_version}" != "${latest_version}" ]]; then
   # We have supplied a manual version, check it and set it if it exists as a tag
-  git tag | grep "${artemis_version}"
+  git tag | grep "${artemis_version}" &> /dev/null
   test $? -eq 0 || exit 1
   export docker_version="${artemis_version}"
 fi

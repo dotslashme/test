@@ -7,7 +7,6 @@ pipeline {
         stage('prepareSources') {
             steps {
                 script {
-                    sh "chmod u+x ${env.WORKSPACE}/prepare-sources.bash"
                     artemis_version = sh(returnStdout: true, script: "${env.WORKSPACE}/prepare-sources.bash ${env.artemisSourceDir} ${artemis_version}").trim()
                 }
                 script {
