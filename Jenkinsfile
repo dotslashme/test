@@ -7,10 +7,10 @@ pipeline {
         stage('prepareSources') {
             steps {
                 script {
-                    artemis_version = sh(returnStdout: true, script: "${env.WORKSPACE}/prepare-sources.bash ${env.artemis_source_dir} ${artemis_version}").trim()
+                    sh(returnStdout: false, script: "${env.WORKSPACE}/prepare-sources.bash ${env.artemis_source_dir} ${artemis_version}")
+                    def (artemis_version, docker_version) = readFile(file: 'versions.txt').tokenize('|')
                 }
                 script {
-                    echo "Artemis version: ${artemis_version}"
                     if (artemis_version.trim().equals("latest")) {
                         echo "We are now building everything from scratch"
                         dir("${env.artemis_source_dir}/artemis-distribution") {

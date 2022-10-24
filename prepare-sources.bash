@@ -21,12 +21,9 @@ if [[ "${artemis_version}" != "latest" && "${artemis_version}" != "${latest_vers
   # We have supplied a manual version, check it and set it if it exists as a tag
   git tag | grep "${artemis_version}" &> /dev/null
   test $? -eq 0 || exit 1
-  export docker_version="${artemis_version}"
+  printf "%s|%s" "${artemis_version}" "${artemis_version}" > versions.txt
 elif [[ "${artemis_version}" != "latest" && "${artemis_version}" == "${latest_version}" ]]; then
-  export docker_version="release"
+  printf "%s|%s" "${artemis_version}" "release" > versions.txt
 else
-  export docker_version="latest"
+  printf "%s|%s" "${artemis_version}" "latest" > versions.txt
 fi
-
-# Echo version used back to caller
-echo "$artemis_version"
