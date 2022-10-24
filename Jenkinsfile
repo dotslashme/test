@@ -20,13 +20,13 @@ pipeline {
                         dir("${env.artemis_source_dir}/artemis-docker") {
                             echo "Preparing docker built from latest commit"
                             sh "./prepare-docker.sh --from-local-dist --local-dist-path ${env.artemis_source_dir}/artemis-distribution/target/apache-artemis-${artemis_version}-bin/apache-artemis-${artemis_version}"
-                            echo "Docker version: ${env.docker_version}, Artemis version: ${artemis_version}"
+                            echo "Docker version: ${docker_version}, Artemis version: ${artemis_version}"
                         }
                     } else {
                         dir("${env.artemis_source_dir}/artemis-docker") {
                             echo "Prepare docker built from release ${artemis_version}"
                             sh "./prepare-docker.sh --from-release --artemis-version ${artemis_version}"
-                            echo "Docker version: ${env.docker_version}, Artemis version: ${artemis_version}"
+                            echo "Docker version: ${docker_version}, Artemis version: ${artemis_version}"
                         }
                     }
                 }
@@ -35,7 +35,7 @@ pipeline {
         stage('buildDockerImage') {
             steps {
                 script {
-                    if (env.docker_version.trim().equals("latest")) {
+                    if (docker_version.trim().equals("latest")) {
                         echo "Building docker latest image"
                         dir("${env.artemis_source_dir}/artemis-distribution/target/apache-artemis-${artemis_version}-bin/apache-artemis-${artemis_version}") {
                             def artemisImage = docker.build("artemis-centos7-11:${docker_version}", "-f ./docker/Dockerfile-centos7-11 -t artemis-centos7-11:${docker_version} .")
