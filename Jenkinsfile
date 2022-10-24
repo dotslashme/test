@@ -7,17 +7,13 @@ pipeline {
         stage('prepareSources') {
             steps {
                 script {
-                    sh(returnStdout: false, script: "${env.WORKSPACE}/prepare-sources.bash ${env.artemis_source_dir} ${artemis_version}")
-                    def tmp = readFile(file: 'versions.txt')
-                    echo "${tmp}"
-                    def (artemis_version, docker_version) = tmp.tokenize('|')
+                    def (artemis_version,docker_version) = sh(returnStdout: true, script: "${env.WORKSPACE}/prepare-sources.bash ${env.artemis_source_dir} ${artemis_version}").trim().tokenize('|')
                 }
                 script {
                     if (artemis_version.trim().equals("latest")) {
                         echo "We are now building everything from scratch"
                         dir("${env.artemis_source_dir}/artemis-distribution") {
                             sh "mvn clean package"
-                            // Override artemis_version since maven will give us the true snapshot version
                             artemis_version = sh(returnStdout: true, script: "mvn help:evaluate -Dexpression=project.version -q -DforceStdout")
                         }
                         dir("${env.artemis_source_dir}/artemis-docker") {
