@@ -12,14 +12,14 @@ readonly source_dir
 git clone https://github.com/apache/activemq-artemis.git "${source_dir}"
 
 # Build either a provided version or latest tag from the repository
-cd "${source_dir}" || echo "Directory: ${source_dir} does not exist"; exit 1
+cd "${source_dir}" || exit 1
 latest_version="$(git describe --tags --abbrev=0)"
 artemis_version="${2:-$latest_version}"
 readonly artemis_version
 
 if [[ "${artemis_version}" != "latest" ]] && [[ "${artemis_version}" != "${latest_version}" ]]; then
-    # We have supplied a manual version, check it and set it
-    git tag | grep "${artemis_version}" || echo "Version: ${artemis_version} does not exist in the repository"; exit 1
+  # We have supplied a manual version, check it and set it if it exists as a tag
+  git tag | grep "${artemis_version}" || exit 1
 fi
 
 # Echo version used back to caller
